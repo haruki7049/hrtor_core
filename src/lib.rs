@@ -12,11 +12,6 @@ pub struct FileInfo {
     pub context: String,
 }
 
-#[derive(Clone)]
-pub struct HrtorProcessor {
-    pub editing_file: FileInfo,
-}
-
 pub enum ReadResult {
     Input(String),
     Signal(Signal),
@@ -32,51 +27,21 @@ pub enum Signal {
     Quit,
 }
 
-impl HrtorProcessor {
-    /// Creates Hrtorprocessor from a FileInfo which user want to edit
-    fn from(file: FileInfo) -> Self {
-        Self { editing_file: file }
-    }
-}
-
-pub trait Processor {
+pub trait Processor where Self: Sized {
     /// Handle the strings from inputs by main.rs on Hrtor implementation
     fn handle_command(&mut self, command: ReadResult) -> anyhow::Result<CommandStatus>;
 
     /// Evaluates the command
     fn eval(&mut self, str: String) -> anyhow::Result<CommandStatus>;
+
+    /// Creates Hrtorprocessor from a FileInfo which user want to edit
+    fn from(file: FileInfo) -> Self;
 }
 
-pub struct Hrtor {
-    pub processor: HrtorProcessor,
-}
-
-impl Hrtor {
+pub trait Hrtor {
     /// Creates Hrtor instance by HrtorProcessor
-    pub fn new(processor: HrtorProcessor) -> Self {
-        Self { processor }
-    }
+    fn new<P: Processor>(processor: P) -> Self;
 
     /// Creates Hrtor instance from the file user want to edit
-    pub fn from(file: FileInfo) -> Self {
-        Self {
-            processor: HrtorProcessor::from(file),
-        }
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use crate::{FileInfo, Hrtor, HrtorProcessor};
-
-    #[test]
-    fn test_hrtor_struct() {
-        let hrtor_processor: HrtorProcessor = HrtorProcessor {
-            editing_file: FileInfo {
-                path: None,
-                context: String::from("test"),
-            },
-        };
-        let _hrtor = Hrtor::new(hrtor_processor);
-    }
+    fn from(file: FileInfo) -> Self;
 }

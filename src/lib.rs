@@ -5,6 +5,15 @@ pub mod parser;
 
 use constants::CommandStatus;
 use std::path::PathBuf;
+use std::collections::HashMap;
+
+pub trait Loader {
+    /// Loads the buffer
+    fn buffer(&self) -> FileInfo;
+
+    /// Loads the configuration files
+    fn config(&self) -> HashMap<String, FileInfo>;
+}
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FileInfo {

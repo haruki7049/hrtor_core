@@ -4,8 +4,8 @@ pub mod constants;
 pub mod parser;
 
 use constants::CommandStatus;
-use std::path::PathBuf;
 use std::collections::HashMap;
+use std::path::PathBuf;
 
 pub trait Loader {
     /// Loads the buffer

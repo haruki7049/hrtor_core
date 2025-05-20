@@ -5,7 +5,5 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.98"
-directories = "6.0.0"
-linefeed = "0.6.0"
 pest = "2.8.0"
 pest_derive = "2.8.0"

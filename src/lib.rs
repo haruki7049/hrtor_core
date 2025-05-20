@@ -6,6 +6,11 @@ pub mod parser;
 use constants::CommandStatus;
 use std::path::PathBuf;
 
+pub trait Loader {
+    /// Loads the buffer
+    fn buffer(&self) -> FileInfo;
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FileInfo {
     pub path: Option<PathBuf>,

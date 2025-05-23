@@ -11,10 +11,21 @@ pub trait Loader {
     fn buffer(&self) -> FileInfo;
 }
 
+#[cfg(feature = "ropey")]
+pub use ropey;
+
+#[cfg(not(feature = "ropey"))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FileInfo {
     pub path: Option<PathBuf>,
     pub context: String,
+}
+
+#[cfg(feature = "ropey")]
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FileInfo {
+    pub path: Option<PathBuf>,
+    pub context: ropey::Rope,
 }
 
 pub enum ReadResult {

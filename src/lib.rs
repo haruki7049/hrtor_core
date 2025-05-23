@@ -5,24 +5,18 @@ pub mod parser;
 
 use constants::CommandStatus;
 use std::path::PathBuf;
+use thiserror::Error;
 
 pub trait Loader {
     /// Loads the buffer
     fn buffer(&self) -> Result<FileInfo, LoadError>;
 }
 
-#[derive(Debug)]
+#[derive(Debug, Error)]
+#[error("LOAD_ERROR: {message:?}")]
 pub struct LoadError {
     pub message: String,
 }
-
-impl std::fmt::Display for LoadError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "LOAD_ERROR: {}", self.message)
-    }
-}
-
-impl std::error::Error for LoadError {}
 
 #[cfg(feature = "ropey")]
 pub use ropey;

@@ -70,6 +70,7 @@ dependencies = [
  "pest",
  "pest_derive",
  "ropey",
+ "thiserror",
 ]
 
 [[package]]

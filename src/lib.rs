@@ -8,8 +8,21 @@ use std::path::PathBuf;
 
 pub trait Loader {
     /// Loads the buffer
-    fn buffer(&self) -> FileInfo;
+    fn buffer(&self) -> Result<FileInfo, LoadError>;
 }
+
+#[derive(Debug)]
+pub struct LoadError {
+    pub message: String,
+}
+
+impl std::fmt::Display for LoadError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "LOAD_ERROR: {}", self.message)
+    }
+}
+
+impl std::error::Error for LoadError {}
 
 #[cfg(feature = "ropey")]
 pub use ropey;
